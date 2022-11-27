@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hydrogen_complian/models/complain_model.dart';
 import 'package:hydrogen_complian/pages/submit_complain.dart';
 import 'package:hydrogen_complian/providers/complain_provider.dart';
-import 'package:hydrogen_complian/repo/http_repo.dart';
 import 'package:hydrogen_complian/utils/constants.dart';
-import 'package:hydrogen_complian/widgets/custom_botton.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -42,13 +38,28 @@ class _MainPageState extends State<MainPage> {
           child: Consumer<ComplainProvider>(
             builder: (context, ComplainProvider complainProvider, child) {
               if (complainProvider.state == EnumState.loading) {
-                return const Center(child: CircularProgressIndicator());
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.90,
+                  width: double.infinity,
+                  child: const Center(child: CircularProgressIndicator()),
+                );
               } else if (complainProvider.state == EnumState.error) {
-                return GestureDetector(
-                  onTap: () => reload(),
-                  child: const Text('Tap ToRetry'),
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.90,
+                  width: double.infinity,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () => reload(),
+                      child: Text(
+                        'Error:: ${complainProvider.errorText}  \nTap To Retry',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
                 );
               }
+
+              
 
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),

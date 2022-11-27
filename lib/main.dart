@@ -18,16 +18,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          Provider(create: (_) => PasteProvider()),
-          Provider(create: (_) => ComplainProvider())
-        ],
-        builder: ((context, child) {
-          return const MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "Hydrogen complain",
-            home: Scaffold(body: LoginPage()),
-          );
-        }));
+      providers: [
+        ChangeNotifierProvider(create: (_) => PasteProvider()),
+        ChangeNotifierProvider(create: (_) => ComplainProvider())
+      ],
+      builder: (context, child) {
+        return const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: "Hydrogen complain",
+          home: Scaffold(body: LoginPage()),
+        );
+      },
+    );
   }
 }

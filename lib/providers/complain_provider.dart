@@ -9,10 +9,12 @@ enum EnumState { loading, error, success, unknown }
 class ComplainProvider extends ChangeNotifier {
   List<ComplainModel> complains = [];
   EnumState state = EnumState.unknown;
+  String errorText = '';
 
   getComplainList() async {
     try {
       state = EnumState.loading;
+      errorText = '';
       notifyListeners();
 
       final SharedPreferences pref = await SharedPreferences.getInstance();
@@ -30,7 +32,10 @@ class ComplainProvider extends ChangeNotifier {
         complains.add(data);
       }
 
+      complains = complains.reversed.toList();
       print(complains);
+
+      // throw 'Network Error happened, try again';
 
       state = EnumState.success;
       notifyListeners();
@@ -38,6 +43,7 @@ class ComplainProvider extends ChangeNotifier {
       print(e);
       print(s);
 
+      errorText = e.toString();
       state = EnumState.error;
       notifyListeners();
     }
